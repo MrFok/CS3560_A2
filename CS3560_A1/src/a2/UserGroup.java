@@ -93,4 +93,9 @@ abstract class UserGroup implements TreeEntry
 		return items;
 	}
 	
+	public void accept(Visitor visitor)
+	{
+		visitor.visitGroup(this);
+	}
+	
 }

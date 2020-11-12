@@ -19,6 +19,7 @@ abstract class UserPanelGUI implements GUI_Interface
 	protected JTextArea txtrTweetMsg;
 	protected JButton btnButtonPost;
 	protected DefaultListModel<String> feedModel;
+	protected DefaultListModel<String> feedModelFollowing;
 	protected JList<String> listFeedTemp;
 	protected JScrollPane listFeed;
 	protected JButton btnClosePanel;
@@ -65,6 +66,7 @@ abstract class UserPanelGUI implements GUI_Interface
 		frmUserPanel.getContentPane().add(btnButtonPost);
 		
 		feedModel = new DefaultListModel<String>();
+		feedModelFollowing = new DefaultListModel<String>();
 		feedModel.addElement("Twitter Feed");
 		listFeedTemp = new JList<>(feedModel);
 		listFeed = new JScrollPane(listFeedTemp);
@@ -107,6 +109,11 @@ abstract class UserPanelGUI implements GUI_Interface
 
 	public JList<String> getListFeed() {
 		return listFeedTemp;
+	}
+	
+	public DefaultListModel<String> getFeedModelFollowing()
+	{
+		return feedModelFollowing;
 	}
 	
 	public void update(TreeEntry user)

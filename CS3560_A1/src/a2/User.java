@@ -51,6 +51,10 @@ abstract class User implements TreeEntry
 		return usersNode;
 	}
 	
+	public void accept(Visitor visitor)
+	{
+		visitor.visitUser(this);
+	}
 	
 	
 }

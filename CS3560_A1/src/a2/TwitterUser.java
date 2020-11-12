@@ -42,6 +42,7 @@ public class TwitterUser extends User
 	
 	public void tweet(String message)	//adds message into feed list
 	{
+		
 		feed.add(message);
 		notifyConsoles();
 	}
@@ -64,13 +65,7 @@ public class TwitterUser extends User
 		return false;
 	}
 
-	public void tweetToFollowers(String sharingTweet)	//tweets sharingTweet to list of followers
-	{
-		List<TwitterUser> followersUsers = getFollowing();
-		for(int i = 0; i < followersUsers.size(); i++)
-		{
-			TwitterUser tempUser = followersUsers.get(i);
-			tempUser.tweet(sharingTweet);
-		}
-	}
+	
+	
+
 }
