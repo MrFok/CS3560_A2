@@ -1,12 +1,12 @@
 /***************************************************************
 * file: CS3560_A1
 * author: Ricky Fok
-* class: CS 3560
+* class: Question
 *
 * assignment: A1
 * date last modified: 9/29/2020
 *
-* purpose: Abstract class 
+* purpose: Encapsulates all information regarding question. 
 ****************************************************************/
 package A1;
 public class Question
@@ -15,12 +15,12 @@ public class Question
 	private Answer modelAns;
 	private int[] stats;		//Index 0 - x(num of choices - 1) are stats of each choice respectively. Index x+1 is correct, x+2 is incorrect
 	private int numOfChoices;
-	private int type;
+//	private int type;
 	
 	public Question(String question, String[] setCandidates, int type)
 	{
 		this.question = question;							//instantiation of question variable in Question
-		this.type = type;
+		//this.type = type;
 		modelAns = new Answer(setCandidates, type);			//instantiation of modelAns, which will generate an Answer for the question
 		setNumOfChoices(modelAns);							//instantiation of the number of choices via Answer
 		stats = new int[getNumOfChoices() + 2];				//instantiation of stats array				
@@ -90,12 +90,6 @@ public class Question
 					stats[i] = stats[i] + 1;			//increments answer used
 				}
 			}
-			
-//			for(int j = 0; j < numOfChoices + 2; j++)		//DEBUG
-//			{
-//				System.out.print(stats[j] + ", ");
-//			}
-//			System.out.print("\n");
 		}
 		
 		if(wrong == false)

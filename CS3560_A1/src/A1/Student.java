@@ -1,20 +1,30 @@
+/***************************************************************
+* file: CS3560_A1
+* author: Ricky Fok
+* class: CS 3560
+*
+* assignment: A1
+* date last modified: 9/29/2020
+*
+* purpose: holds ID and answer. Represents student.
+****************************************************************/
 package A1;
 public class Student {
 
 	private String ID;
 	private Answer choice;
 	
-	public Student(String id)
+	public Student(String id)		//constructor
 	{
 		ID = id;
 		this.choice = new Answer();
 	}
 	
-	public String getID()
+	public String getID()			//returns ID
 	{
 		return ID;
 	}
-	public void setID(String iD) 
+	public void setID(String iD) 	//sets ID 
 	{
 		ID = iD;
 	}

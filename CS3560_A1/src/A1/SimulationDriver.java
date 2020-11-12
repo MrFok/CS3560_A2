@@ -1,19 +1,22 @@
+/***************************************************************
+* file: CS3560_A1
+* author: Ricky Fok
+* class: Answer
+*
+* assignment: A1
+* date last modified: 9/29/2020
+*
+* purpose: main. Sets up structure of program
+****************************************************************/
 package A1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class SimulationDriver 
-{
-	//TODO
-	//FIX "Correct Answer" DISPLAY: Comma missing
-	// Fix Choices counter and correct/incorrect. Numbers are SUPER off. Change algorithm
-	
+{	
 	public static void main(String[] args)
 	{
 		Question q;
-		int rand = (int)Math.random();
+		int rand = (int)(Math.floor(10 * Math.random()));
 		//CHANGE QUESTION CONFIGURATION
 		String scQuestion		= "What is the color of the sky?";
 		String mcQuestion		= "Why did the chicken cross the road?";
@@ -33,6 +36,7 @@ public class SimulationDriver
 //		rand = 1;		// Single-Choice
 //		rand = 2;		// Multiple-Choice
 
+		//Question Selector
 		if(rand % 2 == 1)
 		{
 			q = new Question(scQuestion, scCandidates, 0);	

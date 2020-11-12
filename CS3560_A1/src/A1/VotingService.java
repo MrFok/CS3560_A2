@@ -1,20 +1,28 @@
+/***************************************************************
+* file: CS3560_A1
+* author: Ricky Fok
+* class: CS 3560
+*
+* assignment: A1
+* date last modified: 9/29/2020
+*
+* purpose: hub where question is answered by students. Submits answers to question data
+****************************************************************/
 package A1;
 public class VotingService
 {
-	Question vQ;						//question
-	private int[] statsCounter;			//keeps stats in check
-	private boolean[] stuAnsResults;	//list of which student's answers are correct
+	Question vQ;					//question
+	private boolean[] stuAnsResults;		//list of which student's answers are correct
 	private Student[] stus;				//list of students
 	private int numOfStudents;			//number of students
 	
 	public VotingService(Question q) //constructor
 	{
 		vQ = q;
-		// statsCounter = new int[q.getNumOfChoices() + 2];
 		numOfStudents = 0;
 	}
 	
-	public void submit(Student[] inputStus)
+	public void submit(Student[] inputStus)		//submits the data from students and compares them to model answer
 	{
 		copyToStudentArr(inputStus);		//initialize inputStus into stus
 		numOfStudents = stus.length;		//set numOfStudents
@@ -34,7 +42,7 @@ public class VotingService
 			}
 		}
 		
-		//vQ.updateStats(statsCounter);
+
 	}
 	
 	public void display()
@@ -56,7 +64,7 @@ public class VotingService
 		
 	}
 	
-	public void copyToStudentArr(Student[] arr)
+	public void copyToStudentArr(Student[] arr)	//copies param array into local array "stus"
 	{
 		stus = new Student[arr.length];		//initialization
 		for(int i = 0; i < arr.length; i++)
