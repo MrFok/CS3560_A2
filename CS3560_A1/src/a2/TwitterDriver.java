@@ -17,16 +17,6 @@ public class TwitterDriver
 				{
 					TwitterAdminPanel adminWindow = TwitterAdminPanel.getInstance();
 					adminWindow.getAdmnConsole().setVisible(true);
-//					DefaultMutableTreeNode root = new DefaultMutableTreeNode("CS3560");
-//					DefaultMutableTreeNode RF = new DefaultMutableTreeNode("Ricky Fok");
-//					DefaultMutableTreeNode YS = new DefaultMutableTreeNode("Dr. Yu Sun (Professor)");
-//					root.add(RF);
-//					root.add(YS);
-//					JTree tempTree = new JTree(root);
-//					adminWindow.setTree(tempTree);
-					
-//					UserPanelGUI userWindow = new UserPanelGUI();
-//					userWindow.getFrmUserPanel().setVisible(true);
 				} 
 				catch (Exception e) 
 				{

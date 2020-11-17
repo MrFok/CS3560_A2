@@ -25,7 +25,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		addListener();
 	}
 	
-	public static TwitterAdminPanel getInstance()
+	public static TwitterAdminPanel getInstance()	//returns instance of TwitterAdminPanel (Singleton)
 	{
 		if(instance == null)
 		{
@@ -34,7 +34,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		return instance;
 	}
 	
-	public void addListener()
+	public void addListener()	//add listeners
 	{
 		btnAddUser.addActionListener(this);
 		btnAddGroup.addActionListener(this);
@@ -45,44 +45,37 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		btnShowPositivePercentage.addActionListener(this);
 	}
 
-	public int retrieveUserGroupIndex(String name)
-	{
-		for(int i = 0; i < groupHolder.size(); i++)
-		{
-			if(groupHolder.get(i).toString().equals(name) == true)
-			{
-				return i;
-			}
-		}
-		
-		return 0;
-	}
-
-	public void actionPerformed(ActionEvent e) 
+	public void actionPerformed(ActionEvent e) //catches and performs corresponding button pressed actions
 	{
 		String buttonPressed = e.getActionCommand();
 		
 		switch(buttonPressed)
 		{
-			case "Add User":
+			case ADDUSER_TEXT:
 				addUserAction();
 				break;
-			case "Add Group":
+			case ADDGROUP_TEXT :
 				addGroupAction();
 				break;
-			case "Open User View":
+			case OPENUSERVIEW_TEXT:
 				openUserPanelAction();
 				break;
-			case "Show User Total":
+			case USERTOTAL_TEXT:
 				showUserTotalAction();
 				break;
-			case "Show Group Total":
+			case GROUPTOTAL_TEXT:
 				showGroupTotalAction();
+				break;
+			case MESSAGESTOTAL_TEXT:
+				showMessageTotalAction();
+				break;
+			case POSITVEPERC_TEXT:
+				showPositivePercAction();
 				break;
 		}
 	}
 	
-	public void addUserAction()
+	public void addUserAction()	//adds User
 	{
 		String temp = txtrTextareaUserid.getText();
 		DefaultMutableTreeNode selected = getLastPath();
@@ -111,7 +104,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		}
 	}
 	
-	public void addGroupAction()
+	public void addGroupAction()	//adds group
 	{
 		String temp = txtrTextareaGroupId.getText();
 		DefaultMutableTreeNode selected = getLastPath();
@@ -142,7 +135,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		}
 	}
 	
-	public void openUserPanelAction()
+	public void openUserPanelAction()	//opens user panel for selected user
 	{
 		DefaultMutableTreeNode selected = getLastPath();	
 		try
@@ -150,10 +143,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			DefaultMutableTreeNode groupNode = (DefaultMutableTreeNode)selected.getRoot();
 			String name = groupNode.getUserObject().toString();
 			int groupIndex = retrieveUserGroupIndex(name);
-			//TwitterUserGroup groupObj = groupHolder.get(groupIndex);
-			//TwitterUser selectedUser = (TwitterUser) groupObj.getUser(name);
 			TwitterUser selectedUser = (TwitterUser) selected.getUserObject();
-			System.out.println(selectedUser.toString());
 			Object objType = selected.getUserObject();
 			if(objType instanceof TwitterUser)
 			{
@@ -168,7 +158,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		}
 	}
 
-	public void showUserTotalAction()
+	public void showUserTotalAction()	//prints user total into text box
 	{
 		UserTotalVisitor temp = new UserTotalVisitor();
 		rootGroup.accept(temp);
@@ -177,7 +167,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		//System.out.println("Number of Users: " + num);
 	}
 	
-	public void showGroupTotalAction()
+	public void showGroupTotalAction()	//prints group total into text box
 	{
 		GroupTotalVisitor temp = new GroupTotalVisitor();
 		rootGroup.accept(temp);
@@ -185,6 +175,40 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		txtrTextareaButton.setText("Group Total: " + num + " groups");
 		//System.out.println("Number of Groups: " + num);
 	}
+	
+	public void showMessageTotalAction()	//prints message total into text box
+	{
+		MessageTotalVisitor temp = new MessageTotalVisitor();
+		rootGroup.accept(temp);
+		int num = temp.getSum();
+		txtrTextareaButton.setText("Messages Total: " + num + " tweets");
+		//System.out.println("Number of Groups: " + num);
+	}
+	
+	public void showPositivePercAction()	//prints positive percentage messages into text box
+	{
+		PositivePercVisitor temp = new PositivePercVisitor();
+		rootGroup.accept(temp);
+		int num = temp.getPercentage();
+		txtrTextareaButton.setText("Positive Message %: " + num + "%");
+		//System.out.println("Number of Groups: " + num);
+	}
+	
+	public int retrieveUserGroupIndex(String name)	//returns user group index specified with name
+	{
+		for(int i = 0; i < groupHolder.size(); i++)
+		{
+			if(groupHolder.get(i).toString().equals(name) == true)
+			{
+				return i;
+			}
+		}
+		
+		return 0;
+	}
+
+	
+
 
 
 }

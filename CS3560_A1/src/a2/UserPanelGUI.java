@@ -32,7 +32,8 @@ abstract class UserPanelGUI implements GUI_Interface
 		initialize();
 	}
 
-	public void initialize() {
+	public void initialize() //starts up the panel
+	{
 		frmUserPanel = new JFrame();
 		frmUserPanel.setTitle("User Panel");
 		frmUserPanel.setBounds(100, 100, 710, 637);
@@ -79,44 +80,52 @@ abstract class UserPanelGUI implements GUI_Interface
 		frmUserPanel.getContentPane().add(btnClosePanel);
 	}
 	
-	public JFrame getFrmUserPanel() {
+	public JFrame getFrmUserPanel() //returns panel
+	{
 		return frmUserPanel;
 	}
 	
-	public void setFrmUserPanel(String name) {
+	public void setFrmUserPanel(String name) //sets panel name
+	{
 		frmUserPanel.setTitle(name);
 	}
 
-	public JList<String> getListFollowing() {
+	public JList<String> getListFollowing() //returns list of followers
+	{
 		return listFollowingTemp;
 	}
 
-	public JTextArea getTxtrUserFollow() {
+	public JTextArea getTxtrUserFollow() //returns text area for user's following
+	{
 		return txtrUserFollow;
 	}
 
-	public JButton getBtnFollowUser() {
+	public JButton getBtnFollowUser() //returns button for follow user
+	{
 		return btnFollowUser;
 	}
 
-	public JTextArea getTxtrTweetMsg() {
+	public JTextArea getTxtrTweetMsg() //returns text area for tweet
+	{
 		return txtrTweetMsg;
 	}
 
-	public JButton getBtnButtonPost() {
+	public JButton getBtnButtonPost() //return button for posting
+	{
 		return btnButtonPost;
 	}
 
-	public JList<String> getListFeed() {
+	public JList<String> getListFeed() //returns feed
+	{
 		return listFeedTemp;
 	}
 	
-	public DefaultListModel<String> getFeedModelFollowing()
+	public DefaultListModel<String> getFeedModelFollowing()	//returns the feedModel
 	{
 		return feedModelFollowing;
 	}
 	
-	public void update(TreeEntry user)
+	public void update(TreeEntry user)	// leaves update up to implementations
 	{
 		
 	}

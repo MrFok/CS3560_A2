@@ -2,7 +2,6 @@ package a2;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -11,7 +10,6 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 {
 	private TwitterUser user;
 	private List<TwitterUserGroup> groupHolder;
-	//private static boolean started = false;
 	
 	public TwitterUserPanel(TwitterUser user, List<TwitterUserGroup> groups)
 	{
@@ -23,14 +21,14 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 		addListener();
 	}
 	
-	public void addListener()
+	public void addListener()	//adds all button listeners
 	{
 		btnFollowUser.addActionListener(this);
 		btnButtonPost.addActionListener(this);
 		btnClosePanel.addActionListener(this);
 	}
 	
-	public void followUserAction()
+	public void followUserAction()	//if follow button is pressed
 	{
 		String userName = txtrUserFollow.getText();
 		if(user.checkFollowing(userName) == false && userName.equals(user.getUserID()) == false)
@@ -49,62 +47,19 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 		}
 	}
 	
-	public void importFeed()	//get feeds from followers PART OF UPDATE
-	{
-		for(TwitterUser updateUser: user.getFollowing())
-		{
-			List<String> tweetsToImport = updateUser.getFeed();
-			for(String tweets: tweetsToImport)
-			{
-				if(checkInFeed(tweets) == false)
-				{
-					feedModel.addElement(tweets);
-				}
-			}
-		}
-	}
-
-	public void postAction()
+	public void postAction()	//if post button is pressed
 	{
 		String tweet = txtrTweetMsg.getText();
 		user.tweet(user.toString() + ": " + tweet);
-		//feedModel.addElement(user.toString() + ": " + tweet);	//updates GUI
-	}
-
-	public boolean checkInFeed(String check)	//returns true if string is already in feed
-	{
-		DefaultListModel<String> feed = feedModel;
-		for(int i = 0; i < feed.size(); i++)
-		{
-			if(feed.getElementAt(i).equals(check))
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 	
-	public boolean checkInFollowing(String check)
-	{
-		DefaultListModel<String> following = followingModel;
-		for(int i = 0; i < following.size(); i++)
-		{
-			if(following.getElementAt(i).equals(check))
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public void closePanelAction()
+	public void closePanelAction()	//if close button is pressed
 	{
 		frmUserPanel.setVisible(false);
 	}
-
+	
 	@Override
-	public void actionPerformed(ActionEvent e) 
+	public void actionPerformed(ActionEvent e)	//catches and performs corresponding button pressed actions
 	{
 		String buttonPressed = e.getActionCommand();
 		
@@ -123,7 +78,50 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 		
 	}
 	
-	public void update(TreeEntry entry) 
+	
+	public void importFeed()	//get feeds from followers PART OF UPDATE
+	{
+		for(TwitterUser updateUser: user.getFollowing())
+		{
+			List<String> tweetsToImport = updateUser.getFeed();
+			for(String tweets: tweetsToImport)
+			{
+				if(checkInFeed(tweets) == false)
+				{
+					feedModel.addElement(tweets);
+				}
+			}
+		}
+	}
+
+	public boolean checkInFeed(String check)	//returns true if string is already in feed
+	{
+		DefaultListModel<String> feed = feedModel;
+		for(int i = 0; i < feed.size(); i++)
+		{
+			if(feed.getElementAt(i).equals(check))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkInFollowing(String name)	//checks if name is in the following list of user
+	{
+		DefaultListModel<String> following = followingModel;
+		for(int i = 0; i < following.size(); i++)
+		{
+			if(following.getElementAt(i).equals(name))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void update(TreeEntry entry)	//updates panel (Observer)
 	{
 		if(entry instanceof TwitterUser)
 		{
@@ -166,7 +164,7 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 		return null;
 	}
 	
-	public TwitterUser getUser()
+	public TwitterUser getUser()	//returns user in this panel
 	{
 		return user;
 	}

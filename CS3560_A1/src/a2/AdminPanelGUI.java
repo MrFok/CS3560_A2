@@ -45,15 +45,22 @@ abstract class AdminPanelGUI implements GUI_Interface
 	
 	protected static final String USERID_TEXT = "TextArea - UserID";
 	protected static final String GROUPID_TEXT = "TextArea- Group ID";
+	protected static final String OPENUSERVIEW_TEXT = "Open User View";
+	protected static final String ADDUSER_TEXT = "Add User";
+	protected static final String ADDGROUP_TEXT = "Add Group";
+	protected static final String USERTOTAL_TEXT = "Show User Total";
+	protected static final String GROUPTOTAL_TEXT = "Show Group Total";
+	protected static final String MESSAGESTOTAL_TEXT = "Show Messages Total";
+	protected static final String POSITVEPERC_TEXT = "Show Positive %";
 	
-
 	public AdminPanelGUI() 
 	{
 		root = new DefaultMutableTreeNode("Default Root");
 		initialize();
 	}
 	
-	public void initialize() {
+	public void initialize() //creates panel
+	{
 		admnConsole = new JFrame();
 		admnConsole.setTitle("Admin Panel");
 		admnConsole.setBackground(Color.BLACK);
@@ -67,31 +74,31 @@ abstract class AdminPanelGUI implements GUI_Interface
 		tree.setBounds(21, 21, 223, 433);
 		admnConsole.getContentPane().add(tree);
 		
-		btnOpenUserView = new JButton("Open User View");
+		btnOpenUserView = new JButton(OPENUSERVIEW_TEXT);
 		btnOpenUserView.setBounds(349, 149, 517, 75);
 		admnConsole.getContentPane().add(btnOpenUserView);
 		
-		btnAddUser = new JButton("Add User");
+		btnAddUser = new JButton(ADDUSER_TEXT);
 		btnAddUser.setBounds(618, 21, 248, 59);
 		admnConsole.getContentPane().add(btnAddUser);
 		
-		btnAddGroup = new JButton("Add Group");
+		btnAddGroup = new JButton(ADDGROUP_TEXT );
 		btnAddGroup.setBounds(618, 86, 248, 59);
 		admnConsole.getContentPane().add(btnAddGroup);
 		
-		btnShowUserTotal = new JButton("Show User Total");
+		btnShowUserTotal = new JButton(USERTOTAL_TEXT);
 		btnShowUserTotal.setBounds(349, 330, 248, 59);
 		admnConsole.getContentPane().add(btnShowUserTotal);
 		
-		btnShowPositivePercentage = new JButton("Show Positive %");
+		btnShowPositivePercentage = new JButton(POSITVEPERC_TEXT);
 		btnShowPositivePercentage.setBounds(618, 395, 248, 59);
 		admnConsole.getContentPane().add(btnShowPositivePercentage);
 		
-		btnShowMessagesTotal = new JButton("Show Messages Total");
+		btnShowMessagesTotal = new JButton(MESSAGESTOTAL_TEXT);
 		btnShowMessagesTotal.setBounds(349, 395, 248, 59);
 		admnConsole.getContentPane().add(btnShowMessagesTotal);
 		
-		btnShowGroupTotal = new JButton("Show Group Total");
+		btnShowGroupTotal = new JButton(GROUPTOTAL_TEXT);
 		btnShowGroupTotal.setBounds(618, 330, 248, 59);
 		admnConsole.getContentPane().add(btnShowGroupTotal);
 		
@@ -132,27 +139,28 @@ abstract class AdminPanelGUI implements GUI_Interface
         });
 	}
 	
-	public DefaultMutableTreeNode getLastPath()
+	public DefaultMutableTreeNode getLastPath()	//returns selected tree item
 	{
 		return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 	}
 	
-	public JFrame getAdmnConsole()
+	public JFrame getAdmnConsole()	//returns panel
 	{
 		return admnConsole;
 	}
 	
-	public JTree getTree()
+	public JTree getTree()	//returns tree 
 	{
 		return tree;
 	}
 	
-	public JButton getOpenUserView()
+	public JButton getOpenUserView()	//returns button to open user view
 	{
 		return btnOpenUserView;
 	}
 	
-	public JButton getBtnAddUser() {
+	public JButton getBtnAddUser() //returns button to add user
+	{
 		return btnAddUser;
 	}
 
@@ -160,71 +168,82 @@ abstract class AdminPanelGUI implements GUI_Interface
 		this.btnAddUser = btnAddUser;
 	}
 
-	public JButton getBtnAddGroup() {
+	public JButton getBtnAddGroup() //returns button to add group
+	{
 		return btnAddGroup;
 	}
 
-	public void setBtnAddGroup(JButton btnAddGroup) {
-		this.btnAddGroup = btnAddGroup;
-	}
-
-	public JButton getBtnShowUserTotal() {
+	public JButton getBtnShowUserTotal()	//returns button to show user total
+	{
 		return btnShowUserTotal;
 	}
 
-	public JButton getBtnShowPositivePercentage() {
+	public JButton getBtnShowPositivePercentage() //returns button to show positive message percentage
+	{
 		return btnShowPositivePercentage;
 	}
 
-	public JButton getBtnShowMessagesTotal() {
+	public JButton getBtnShowMessagesTotal() ////returns button to show total # of messages
+	{
 		return btnShowMessagesTotal;
 	}
 
-	public JButton getBtnShowGroupTotal() {
+	public JButton getBtnShowGroupTotal() //returns button to show total # of groups
+	{
 		return btnShowGroupTotal;
 	}
 
-	public JTextArea getTxtrTextareaUserid() {
+	public JTextArea getTxtrTextareaUserid() //returns text area for user id
+	{
 		return txtrTextareaUserid;
 	}
 
-	public JTextArea getTxtrTextareaGroupId() {
+	public JTextArea getTxtrTextareaGroupId() //returns text area for user group id
+	{
 		return txtrTextareaGroupId;
 	}
 
-	public JTextArea getTxtrTextareaButton() {
+	public JTextArea getTxtrTextareaButton()	//returns text area for text display area (for the 4 btm buttons)
+	{
 		return txtrTextareaButton;
 	}
 
-	public JLabel getLblNewLabel() {
+	public JLabel getLblNewLabel()	//returns new label
+	{
 		return lblNewLabel;
 	}
 	
-	public void setTree(JTree tree) {
+	public void setTree(JTree tree) //sets the JTree to tree
+	{
 		this.tree = tree;
 	}
 	
-	public void setTxtrTextareaUserid(JTextArea txtrTextareaUserid) {
+	public void setTxtrTextareaUserid(JTextArea txtrTextareaUserid) //sets User ID Text Area
+	{
 		this.txtrTextareaUserid = txtrTextareaUserid;
 	}
 	
-	public void setTxtrTextareaGroupId(JTextArea txtrTextareaGroupId) {
+	public void setTxtrTextareaGroupId(JTextArea txtrTextareaGroupId) //sets Group ID Text Area
+	{
 		this.txtrTextareaGroupId = txtrTextareaGroupId;
 	}
 	
-	public void setTxtrTextareaButton(JTextArea txtrTextareaButton) {
+	public void setTxtrTextareaButton(JTextArea txtrTextareaButton) //sets Text Display Area
+	{
 		this.txtrTextareaButton = txtrTextareaButton;
 	}
 
-	public DefaultMutableTreeNode getRoot() {
+	public DefaultMutableTreeNode getRoot() //returns root
+	{
 		return root;
 	}
 
-	public DefaultTreeModel getModel() {
+	public DefaultTreeModel getModel() //returns model
+	{
 		return model;
 	}
 
-	public void update(TreeEntry obj)
+	public void update(TreeEntry obj)	//update panel MAY OR MAY NOT USE
 	{
 		if(obj instanceof UserGroup)
 		{
