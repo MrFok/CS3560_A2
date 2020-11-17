@@ -224,9 +224,12 @@ abstract class AdminPanelGUI implements GUI_Interface
 		return model;
 	}
 
-//	public void update(TreeEntry obj)
-//	{
-//		model.reload(root);
-//	}
+	public void update(TreeEntry obj)
+	{
+		if(obj instanceof UserGroup)
+		{
+			model.reload(root);	
+		}
+	}
 	
 }

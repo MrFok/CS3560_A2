@@ -10,14 +10,17 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 {
 	private static TwitterAdminPanel instance = null;
+	TwitterUserGroup rootGroup;
 	private List<TwitterUserGroup> groupHolder;
+
+	private int numOfUsers;
 	
 	private TwitterAdminPanel() 
 	{
-		TwitterUserGroup temp = new TwitterUserGroup("Twitter");
-		root = new DefaultMutableTreeNode(temp);
+		rootGroup = new TwitterUserGroup("Twitter");
+		root = new DefaultMutableTreeNode(rootGroup);
 		groupHolder = new ArrayList<TwitterUserGroup>();
-		groupHolder.add(temp);
+		groupHolder.add(rootGroup);
 		initialize();
 		addListener();
 	}
@@ -36,6 +39,10 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		btnAddUser.addActionListener(this);
 		btnAddGroup.addActionListener(this);
 		btnOpenUserView.addActionListener(this);
+		btnShowUserTotal.addActionListener(this);
+		btnShowGroupTotal.addActionListener(this);
+		btnShowMessagesTotal.addActionListener(this);
+		btnShowPositivePercentage.addActionListener(this);
 	}
 
 	public int retrieveUserGroupIndex(String name)
@@ -49,11 +56,6 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		}
 		
 		return 0;
-	}
-	@Override
-	public void update(TreeEntry entry) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void actionPerformed(ActionEvent e) 
@@ -71,6 +73,12 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			case "Open User View":
 				openUserPanelAction();
 				break;
+			case "Show User Total":
+				showUserTotalAction();
+				break;
+			case "Show Group Total":
+				showGroupTotalAction();
+				break;
 		}
 	}
 	
@@ -86,8 +94,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			else
 			{
 				DefaultMutableTreeNode groupNode = (DefaultMutableTreeNode)selected.getRoot();
-				int groupIndex = retrieveUserGroupIndex(groupNode.getUserObject().toString());
-				TwitterUserGroup groupObj = groupHolder.get(groupIndex);
+				TwitterUserGroup groupObj = (TwitterUserGroup)groupNode.getUserObject();
 				if(groupObj.checkUserExists(temp) == false)
 				{
 					TwitterUser newUser = new TwitterUser(temp);
@@ -117,8 +124,12 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			{
 				if(selected.getUserObject() instanceof TwitterUserGroup)	//prohibits adding onto Users
 				{
+					DefaultMutableTreeNode groupNode = (DefaultMutableTreeNode)selected.getRoot();
+					TwitterUserGroup parentGroup = (TwitterUserGroup)groupNode.getUserObject();
 					TwitterUserGroup newGroup = new TwitterUserGroup(temp);
+					newGroup.attachConsole(this);
 					groupHolder.add(newGroup);	
+					parentGroup.addUserGroup(newGroup);
 					DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(newGroup);
 					selected.add(newGroupNode);
 					model.reload(root);	//temporary
@@ -156,5 +167,25 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			System.out.println("ERROR: You have not selected any item in the list. Please try again.");
 		}
 	}
+
+	public void showUserTotalAction()
+	{
+		UserTotalVisitor temp = new UserTotalVisitor();
+		rootGroup.accept(temp);
+		int num = temp.getSum();
+		txtrTextareaButton.setText("User Total: " + num + " users");
+		//System.out.println("Number of Users: " + num);
+	}
+	
+	public void showGroupTotalAction()
+	{
+		GroupTotalVisitor temp = new GroupTotalVisitor();
+		rootGroup.accept(temp);
+		int num = temp.getSum();
+		txtrTextareaButton.setText("Group Total: " + num + " groups");
+		//System.out.println("Number of Groups: " + num);
+	}
+
+
 }
 

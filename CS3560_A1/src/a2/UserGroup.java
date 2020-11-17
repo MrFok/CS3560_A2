@@ -7,6 +7,7 @@ abstract class UserGroup implements TreeEntry
 {
 	private String groupID; // user group id
 	private List<TreeEntry> items;
+	private static int numOfGroups;
 	
 	private List<GUI_Interface> consoles = new ArrayList<GUI_Interface>();
 	
@@ -14,11 +15,14 @@ abstract class UserGroup implements TreeEntry
 	{
 		this.setGroupID(groupID);
 		items = new ArrayList<TreeEntry>();
+		notifyConsoles();
+		numOfGroups++;
 	}
 	
 	public void addUser(User temp)	//adds TreeEntry item to items list
 	{
 		items.add(temp);
+		notifyConsoles();
 	}
 	
 	public User getUser(String userName)
@@ -37,6 +41,7 @@ abstract class UserGroup implements TreeEntry
 	public void addUserGroup(UserGroup temp)	//adds TreeEntry item to items list
 	{
 		items.add(temp);
+		notifyConsoles();
 	}
 	
 	public UserGroup getUserGroup(String name)
@@ -50,6 +55,11 @@ abstract class UserGroup implements TreeEntry
 		}
 		
 		return null;
+	}
+	
+	public int getNumOfGroups()
+	{
+		return numOfGroups;
 	}
 	
 	public boolean checkUserExists(String testUser)	//checks if testUser is inside list. Returns true if so and false if not
@@ -88,14 +98,20 @@ abstract class UserGroup implements TreeEntry
 		consoles.add(console);
 	}
 	
+	public void accept(Visitor visitor)
+	{
+		for(TreeEntry things: items)
+		{
+			things.accept(visitor);
+		}
+		visitor.visit(this);
+	}
+	
 	public List<TreeEntry> getItems()
 	{
 		return items;
 	}
 	
-	public void accept(Visitor visitor)
-	{
-		visitor.visitGroup(this);
-	}
+	
 	
 }

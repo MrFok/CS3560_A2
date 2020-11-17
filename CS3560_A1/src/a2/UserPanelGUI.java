@@ -78,7 +78,7 @@ abstract class UserPanelGUI implements GUI_Interface
 		btnClosePanel.setBounds(563, 39, 96, 35);
 		frmUserPanel.getContentPane().add(btnClosePanel);
 	}
-
+	
 	public JFrame getFrmUserPanel() {
 		return frmUserPanel;
 	}

@@ -17,7 +17,7 @@ abstract class User implements TreeEntry
 		setUserID(uID);
 		usersNode = new DefaultMutableTreeNode(this);
 	}
-	
+
 	public String toString()	//returns userID
 	{
 		return userID;
@@ -53,8 +53,8 @@ abstract class User implements TreeEntry
 	
 	public void accept(Visitor visitor)
 	{
-		visitor.visitUser(this);
+		visitor.visit(this);
 	}
-	
+
 	
 }
