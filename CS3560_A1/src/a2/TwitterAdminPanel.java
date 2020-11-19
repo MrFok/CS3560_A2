@@ -137,7 +137,9 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		try
 		{
 			if(temp.equals(USERID_TEXT) || temp.equals(""))
-			{}
+			{
+				System.out.println("ERROR: Text is default or is empty.");
+			}
 			else
 			{
 				DefaultMutableTreeNode groupNode = (DefaultMutableTreeNode)selected.getRoot();
@@ -167,7 +169,9 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		try 
 		{
 			if(temp.equals(GROUPID_TEXT) || temp.equals(""))
-			{}
+			{
+				System.out.println("ERROR: Text is default or is empty.");
+			}
 			else
 			{
 				if(selected.getUserObject() instanceof TwitterUserGroup)	//prohibits adding onto Users
@@ -196,13 +200,20 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		DefaultMutableTreeNode selected = getLastPath();	
 		try
 		{
-			TwitterUser selectedUser = (TwitterUser) selected.getUserObject();
-			Object objType = selected.getUserObject();
-			if(objType instanceof TwitterUser)
+			if(selected.getUserObject() instanceof TwitterUser)
 			{
-				TwitterUserPanel userWindow = new TwitterUserPanel(selectedUser, groupHolder);
-				userWindow.setFrmUserPanel(objType.toString() + " User Panel");
-				userWindow.getFrmUserPanel().setVisible(true);
+				TwitterUser selectedUser = (TwitterUser) selected.getUserObject();
+				Object objType = selected.getUserObject();
+				if(objType instanceof TwitterUser)
+				{
+					TwitterUserPanel userWindow = new TwitterUserPanel(selectedUser, groupHolder);
+					userWindow.setFrmUserPanel(objType.toString() + " User Panel");
+					userWindow.getFrmUserPanel().setVisible(true);
+				}
+			}
+			else
+			{
+				System.out.println("ERROR: Cannot Open User View for Group");
 			}
 		}
 		catch(NullPointerException eE)

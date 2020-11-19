@@ -41,7 +41,11 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 	public void followUserAction()	//if follow button is pressed
 	{
 		String userName = txtrUserFollow.getText();
-		if(user.checkFollowing(userName) == false && userName.equals(user.getUserID()) == false)
+		if(userName.equals(USERID_TEXT) || userName.equals(""))
+		{
+			System.out.println("ERROR: Text is default or is empty.");
+		}
+		else if(user.checkFollowing(userName) == false && userName.equals(user.getUserID()) == false)
 		{
 			try
 			{
@@ -60,7 +64,14 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 	public void postAction()	//if post button is pressed
 	{
 		String tweet = txtrTweetMsg.getText();
-		user.tweet(user.toString() + ": " + tweet);
+		if(tweet.equals(TWEET_TEXT) || tweet.equals(""))
+		{
+			System.out.println("ERROR: Tweet is default or is empty.");
+		}
+		else
+		{
+			user.tweet(user.toString() + ": " + tweet);
+		}		
 	}
 	
 	public void closePanelAction()	//if close button is pressed
@@ -91,17 +102,21 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 	
 	public void importFeed()	//get feeds from followers PART OF UPDATE
 	{
-		for(TwitterUser updateUser: user.getFollowing())
+		if(user.getFollowers().size() > 0)
 		{
-			List<String> tweetsToImport = updateUser.getFeed();
-			for(String tweets: tweetsToImport)
+			for(TwitterUser updateUser: user.getFollowing())
 			{
-				if(checkInFeed(tweets) == false)
+				List<String> tweetsToImport = updateUser.getFeed();
+				for(String tweets: tweetsToImport)
 				{
-					feedModel.addElement(tweets);
+					if(checkInFeed(tweets) == false)
+					{
+						feedModel.addElement(tweets);
+					}
 				}
 			}
 		}
+		
 	}
 
 	public boolean checkInFeed(String check)	//returns true if string is already in feed
