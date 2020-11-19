@@ -1,11 +1,19 @@
 package a2;
 
+import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 {
@@ -14,6 +22,8 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 	private List<TwitterUserGroup> groupHolder;
 
 	private int numOfUsers;
+	private ImageIcon userIcon;
+	private ImageIcon groupIcon;
 	
 	private TwitterAdminPanel() 
 	{
@@ -23,6 +33,21 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		groupHolder.add(rootGroup);
 		initialize();
 		addListener();
+		readImages();
+		setIcon();
+	}
+	
+	public void readImages()	//read in twitter main and twitter group pictures
+	{
+		URL url = getClass().getResource("/twitter_main.png");
+		userIcon = new ImageIcon(url);
+		Image image = userIcon.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		userIcon = new ImageIcon(image);
+
+		URL url2 = getClass().getResource("/twitter_group.png");
+		groupIcon = new ImageIcon(url2);
+		image = groupIcon.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		groupIcon = new ImageIcon(image);
 	}
 	
 	public static TwitterAdminPanel getInstance()	//returns instance of TwitterAdminPanel (Singleton)
@@ -75,6 +100,35 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		}
 	}
 	
+	
+	public void setIcon()	//holds Tree Cell Renderer
+	{
+		tree.setCellRenderer(new DefaultTreeCellRenderer() 
+		{
+            @Override
+            public Component getTreeCellRendererComponent(JTree tree,
+                    Object value, boolean selected, boolean expanded,
+                    boolean isLeaf, int row, boolean focused) 
+            {
+                Component c = super.getTreeCellRendererComponent(tree, value,
+                        selected, expanded, isLeaf, row, focused);
+                if (value instanceof DefaultMutableTreeNode)
+                {
+                	DefaultMutableTreeNode temp = (DefaultMutableTreeNode)value;
+                	if(temp.getUserObject() instanceof TwitterUser)
+                	{
+                		setIcon(userIcon);
+                	}
+                	else if(temp.getUserObject() instanceof TwitterUserGroup)
+                	{
+                		setIcon(groupIcon);
+                	}	
+                } 
+                return c;
+            }
+        });
+	}
+	
 	public void addUserAction()	//adds User
 	{
 		String temp = txtrTextareaUserid.getText();
@@ -92,6 +146,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 				{
 					TwitterUser newUser = new TwitterUser(temp);
 					DefaultMutableTreeNode userNode = new DefaultMutableTreeNode(newUser);
+					setIcon();
 					groupObj.addUser(newUser);
 					selected.add(userNode);
 					model.reload(root);	//temporary
@@ -125,6 +180,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 					parentGroup.addUserGroup(newGroup);
 					DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(newGroup);
 					selected.add(newGroupNode);
+					setIcon();
 					model.reload(root);	//temporary
 				}
 			}
@@ -140,9 +196,6 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		DefaultMutableTreeNode selected = getLastPath();	
 		try
 		{
-			DefaultMutableTreeNode groupNode = (DefaultMutableTreeNode)selected.getRoot();
-			String name = groupNode.getUserObject().toString();
-			int groupIndex = retrieveUserGroupIndex(name);
 			TwitterUser selectedUser = (TwitterUser) selected.getUserObject();
 			Object objType = selected.getUserObject();
 			if(objType instanceof TwitterUser)
@@ -206,10 +259,5 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		
 		return 0;
 	}
-
-	
-
-
-
 }
 

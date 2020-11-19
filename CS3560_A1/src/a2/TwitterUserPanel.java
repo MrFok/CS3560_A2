@@ -1,10 +1,13 @@
 package a2;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 
 public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 {
@@ -14,6 +17,13 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 	public TwitterUserPanel(TwitterUser user, List<TwitterUserGroup> groups)
 	{
 		super();
+		
+		// sets icon image
+		URL url = getClass().getResource("/twitter_main.png");
+		ImageIcon userIcon = new ImageIcon(url);
+		Image image = userIcon.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		frmUserPanel.setIconImage(image);
+		
 		this.user = user;
 		this.update(user);
 		user.attachConsole(this);
