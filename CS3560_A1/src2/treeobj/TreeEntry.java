@@ -1,4 +1,5 @@
-package a2;
+package treeobj;
+import visitors.Visitor;
 
 public interface TreeEntry 
 {

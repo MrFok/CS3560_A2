@@ -1,4 +1,4 @@
-package a2;
+package gui;
 
 import java.awt.Component;
 import java.awt.Image;
@@ -15,15 +15,23 @@ import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import treeobj.TwitterUser;
+import treeobj.TwitterUserGroup;
+import visitors.GroupTotalVisitor;
+import visitors.LastUpdatedVisitor;
+import visitors.MessageTotalVisitor;
+import visitors.PositivePercVisitor;
+import visitors.UserTotalVisitor;
+import visitors.VerifyVisitor;
+
 public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 {
 	private static TwitterAdminPanel instance = null;
 	TwitterUserGroup rootGroup;
 	private List<TwitterUserGroup> groupHolder;
-
-	private int numOfUsers;
 	private ImageIcon userIcon;
 	private ImageIcon groupIcon;
+	private List<String> nameList;
 	
 	private TwitterAdminPanel() 
 	{
@@ -31,6 +39,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		root = new DefaultMutableTreeNode(rootGroup);
 		groupHolder = new ArrayList<TwitterUserGroup>();
 		groupHolder.add(rootGroup);
+		nameList = new ArrayList<String>();
 		initialize();
 		addListener();
 		readImages();
@@ -68,6 +77,8 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		btnShowGroupTotal.addActionListener(this);
 		btnShowMessagesTotal.addActionListener(this);
 		btnShowPositivePercentage.addActionListener(this);
+		btnUserVerification.addActionListener(this);
+		btnLastUpdatedUser.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) //catches and performs corresponding button pressed actions
@@ -97,9 +108,14 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			case POSITVEPERC_TEXT:
 				showPositivePercAction();
 				break;
+			case VERIFY_TEXT:
+				verifyUsers();
+				break;
+			case LASTUPDATED_TEXT:
+				findLastUpdatedUser();
+				break;
 		}
 	}
-	
 	
 	public void setIcon()	//holds Tree Cell Renderer
 	{
@@ -144,15 +160,15 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 			{
 				DefaultMutableTreeNode groupNode = (DefaultMutableTreeNode)selected.getRoot();
 				TwitterUserGroup groupObj = (TwitterUserGroup)groupNode.getUserObject();
-				if(groupObj.checkUserExists(temp) == false)
-				{
+//				if(groupObj.checkUserExists(temp) == false)
+//				{
 					TwitterUser newUser = new TwitterUser(temp);
 					DefaultMutableTreeNode userNode = new DefaultMutableTreeNode(newUser);
 					setIcon();
 					groupObj.addUser(newUser);
 					selected.add(userNode);
 					model.reload(root);	//temporary
-				}	
+//				}	
 			}
 		}
 		catch(NullPointerException eE)
@@ -207,7 +223,7 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 				if(objType instanceof TwitterUser)
 				{
 					TwitterUserPanel userWindow = new TwitterUserPanel(selectedUser, groupHolder);
-					userWindow.setFrmUserPanel(objType.toString() + " User Panel");
+//					userWindow.setFrmUserPanel(objType.toString() + " User Panel");
 					userWindow.getFrmUserPanel().setVisible(true);
 				}
 			}
@@ -270,5 +286,20 @@ public class TwitterAdminPanel extends AdminPanelGUI implements ActionListener
 		
 		return 0;
 	}
+
+	public void verifyUsers()	//checks to see if users have no spaces and no repetitions
+	{
+		VerifyVisitor temp = new VerifyVisitor();
+		rootGroup.accept(temp);
+		txtrTextareaButton.setText(temp.verify());
+	}
+	
+	public void findLastUpdatedUser()	//finds latest updated user
+	{
+		LastUpdatedVisitor temp = new LastUpdatedVisitor();
+		rootGroup.accept(temp);
+		txtrTextareaButton.setText(temp.getLatestUser());
+	}
+	
 }
 

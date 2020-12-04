@@ -1,15 +1,4 @@
-/***************************************************************
-* file: CS3560_A1
-* author: Ricky Fok
-* class: Answer
-*
-* assignment: A2
-* date last modified: 11/12/2020
-*
-* purpose: SINGLETON IMPLEMENTATION so that this can only be created once.
-* 		   GUI implementation for the Admin Console
-****************************************************************/
-package a2;
+package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JTree;
@@ -17,6 +6,10 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
+import treeobj.*;
+import visitors.*;
+
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.Color;
@@ -38,8 +31,11 @@ abstract class AdminPanelGUI implements GUI_Interface
 	protected JTextArea txtrTextareaUserid;
 	protected JTextArea txtrTextareaGroupId;
 	protected JTextArea txtrTextareaButton;
-	protected JLabel lblNewLabel;
+	protected JLabel lblNewLabel;	//label that shows selected entity in tree
 	protected DefaultTreeModel model;
+	
+	protected JButton btnUserVerification;
+	protected JButton btnLastUpdatedUser;
 	
 	protected DefaultMutableTreeNode root;
 	
@@ -52,6 +48,9 @@ abstract class AdminPanelGUI implements GUI_Interface
 	protected static final String GROUPTOTAL_TEXT = "Show Group Total";
 	protected static final String MESSAGESTOTAL_TEXT = "Show Messages Total";
 	protected static final String POSITVEPERC_TEXT = "Show Positive %";
+	
+	protected static final String VERIFY_TEXT = "Verify";
+	protected static final String LASTUPDATED_TEXT = "L.U";
 	
 	public AdminPanelGUI() 
 	{
@@ -125,6 +124,14 @@ abstract class AdminPanelGUI implements GUI_Interface
 		lblNewLabel.setBounds(21, 466, 223, 26);
 		admnConsole.getContentPane().add(lblNewLabel);
 		
+		btnUserVerification = new JButton(VERIFY_TEXT);
+		btnUserVerification.setBounds(880, 21, 70, 100);
+		admnConsole.getContentPane().add(btnUserVerification);
+		
+		btnLastUpdatedUser = new JButton(LASTUPDATED_TEXT);
+		btnLastUpdatedUser.setBounds(880, 330, 70, 100);
+		admnConsole.getContentPane().add(btnLastUpdatedUser);
+		
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() 
 		{
             @Override
@@ -132,8 +139,22 @@ abstract class AdminPanelGUI implements GUI_Interface
             {
             	if(e.getNewLeadSelectionPath() != null)	//to make sure you are selecting some node and not nothing
             	{
-                DefaultMutableTreeNode selectedNode = getLastPath();
-                lblNewLabel.setText(selectedNode.getUserObject().toString());	//setting textbox to string of object hovering
+            		String temp = "";
+	                DefaultMutableTreeNode selectedNode = getLastPath();
+	                if(selectedNode.getUserObject() instanceof TwitterUserGroup)
+	                {
+	                	TwitterUserGroup tempUG = (TwitterUserGroup)selectedNode.getUserObject();
+	                	temp = selectedNode.getUserObject().toString() + ": " + tempUG.getStrTime();
+	                	lblNewLabel.setText(temp);	//setting textbox to string of object hovering
+	                }
+	                else if(selectedNode.getUserObject() instanceof TwitterUser)
+	                {
+	                	TwitterUser tempU = (TwitterUser)selectedNode.getUserObject();
+	                	temp = selectedNode.getUserObject().toString() + ": " + tempU.getStrTime();
+	                	lblNewLabel.setText(temp);	//setting textbox to string of object hovering
+	                }
+
+	                
             	}
             }
         });
@@ -241,6 +262,26 @@ abstract class AdminPanelGUI implements GUI_Interface
 	public DefaultTreeModel getModel() //returns model
 	{
 		return model;
+	}
+	
+	public JButton getBtnUserVerification()	//returns Verify Button
+	{
+		return btnUserVerification;
+	}
+	
+	public void setBtnUserVerification(JButton temp)
+	{
+		btnUserVerification = temp;
+	}
+	
+	public JButton getBtnLastUpdatedUser()
+	{
+		return btnLastUpdatedUser;
+	}
+	
+	public void setBtnLastUpdatedUser(JButton temp)
+	{
+		btnLastUpdatedUser = temp;
 	}
 
 	public void update(TreeEntry obj)	//update panel MAY OR MAY NOT USE

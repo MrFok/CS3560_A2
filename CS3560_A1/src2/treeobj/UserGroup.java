@@ -1,12 +1,16 @@
-package a2;
+package treeobj;
+import gui.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class UserGroup implements TreeEntry
+import gui.GUI_Interface;
+import visitors.Visitor;
+
+abstract public class UserGroup implements TreeEntry
 {
-	private String groupID; // user group id
-	private List<TreeEntry> items;
+	protected String groupID; // user group id
+	protected List<TreeEntry> items;
 	
 	private List<GUI_Interface> consoles = new ArrayList<GUI_Interface>();
 	
@@ -104,7 +108,7 @@ abstract class UserGroup implements TreeEntry
 	{
 		return items;
 	}
-	
+
 	
 	
 }

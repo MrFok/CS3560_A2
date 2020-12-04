@@ -1,4 +1,6 @@
-package a2;
+package gui;
+
+import treeobj.TreeEntry;
 
 public interface GUI_Interface 
 {

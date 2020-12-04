@@ -1,12 +1,20 @@
-package a2;
+package gui;
+
+
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import treeobj.TreeEntry;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 abstract class UserPanelGUI implements GUI_Interface
 {
@@ -23,6 +31,7 @@ abstract class UserPanelGUI implements GUI_Interface
 	protected JList<String> listFeedTemp;
 	protected JScrollPane listFeed;
 	protected JButton btnClosePanel;
+	protected JLabel lblLastUpdated;
 	
 	protected static final String TWEET_TEXT = "Text Area - Tweet Message";
 	protected static final String USERID_TEXT = "Text Area - UserID";
@@ -36,7 +45,7 @@ abstract class UserPanelGUI implements GUI_Interface
 	{
 		frmUserPanel = new JFrame();
 		frmUserPanel.setTitle("User Panel");
-		frmUserPanel.setBounds(100, 100, 710, 637);
+		frmUserPanel.setBounds(100, 100, 710, 700);
 		frmUserPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmUserPanel.getContentPane().setLayout(null);
 		
@@ -78,6 +87,11 @@ abstract class UserPanelGUI implements GUI_Interface
 		btnClosePanel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnClosePanel.setBounds(563, 39, 96, 35);
 		frmUserPanel.getContentPane().add(btnClosePanel);
+		
+		lblLastUpdated = new JLabel("Last Updated:");
+		lblLastUpdated.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblLastUpdated.setBounds(21, 600, 160, 25);
+		frmUserPanel.getContentPane().add(lblLastUpdated);
 	}
 	
 	public JFrame getFrmUserPanel() //returns panel
@@ -123,6 +137,12 @@ abstract class UserPanelGUI implements GUI_Interface
 	public DefaultListModel<String> getFeedModelFollowing()	//returns the feedModel
 	{
 		return feedModelFollowing;
+	}
+	
+	public void setLblLastUpdated(long time)	//sets label time
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		lblLastUpdated.setText("Last Updated: "+ sdf.format(new Date(time)));
 	}
 	
 	public void update(TreeEntry user)	// leaves update up to implementations

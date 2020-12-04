@@ -1,4 +1,5 @@
-package a2;
+package gui;
+
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,10 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
+import treeobj.TreeEntry;
+import treeobj.TwitterUser;
+import treeobj.TwitterUserGroup;
+
 public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 {
 	private TwitterUser user;
@@ -17,7 +22,8 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 	public TwitterUserPanel(TwitterUser user, List<TwitterUserGroup> groups)
 	{
 		super();
-		
+		//frmUserPanel.setTitle();
+		setFrmUserPanel(user.getUserID()+ " User Panel: " + user.getStrTime());
 		// sets icon image
 		URL url = getClass().getResource("/twitter_main.png");
 		ImageIcon userIcon = new ImageIcon(url);
@@ -166,9 +172,8 @@ public class TwitterUserPanel extends UserPanelGUI implements ActionListener
 				}
 			}
 			importFeed();
+			setLblLastUpdated(user.getUpdateTime());
 		}
-		//listFollowing.set = new JList(user.getFollowingDLM());
-		//listFeed = ;
 	}
 	
 	public TwitterUser findAUser(String name)	//finds user with name in list of our UserGroups

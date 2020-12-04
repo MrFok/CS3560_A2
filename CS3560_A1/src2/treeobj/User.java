@@ -1,11 +1,16 @@
-package a2;
+package treeobj;
+import gui.*;
+import visitors.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-abstract class User implements TreeEntry
+import gui.GUI_Interface;
+import visitors.Visitor;
+
+abstract public class User implements TreeEntry
 {
 	protected String userID;
 	protected DefaultMutableTreeNode usersNode;
